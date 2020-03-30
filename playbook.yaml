@@ -1,0 +1,33 @@
+---
+- hosts: web
+  remote_user: ec2-user
+  become: true
+  tasks:
+  - name : add rpm repo
+    get_url:
+          url: https://download.gocd.org/gocd.repo
+          dest: /etc/yum.repos.d/gocd.repo
+   
+  - name:  install repo on centos
+    yum: 
+          name: go-server
+          state: latest
+
+  - name: start gocd
+    service:
+          name: go-server
+          state: started
+
+
+   
+  - name:  install go agent  on centos
+    yum: 
+          name: go-agent
+          state: latest
+
+  - name: start gocd agent
+    service:
+          name: go-agent
+          state: started
+
+
